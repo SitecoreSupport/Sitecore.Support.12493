@@ -25,16 +25,16 @@
           List<XElement> compositeComponents = GetCompositeComponents(result);
           if (compositeComponents.Any())
           {
-            DictionaryCacheValue dictionaryCacheValue =
-              DictionaryCache.Get(CreateCompositesXmlCacheKey(item.ID, siteItem.ID));
-            if (Context.PageMode.IsNormal && dictionaryCacheValue != null &&
-                dictionaryCacheValue.Properties.ContainsKey("CompositesXml"))
-            {
-              args.Result = XElement.Parse(dictionaryCacheValue.Properties["CompositesXml"].ToString());
-            }
-            else
-            {
-              if (!args.CustomData.ContainsKey("sxa-composite-recursion-level"))
+            #region Removed Code
+            //DictionaryCacheValue dictionaryCacheValue = DictionaryCache.Get(CreateCompositesXmlCacheKey(item.ID, siteItem.ID));
+            //if (Context.PageMode.IsNormal && dictionaryCacheValue != null && dictionaryCacheValue.Properties.ContainsKey("CompositesXml"))
+            //{
+            //    args.Result = XElement.Parse(dictionaryCacheValue.Properties["CompositesXml"].ToString());
+            //}
+            //else
+            //{
+            #endregion
+            if (!args.CustomData.ContainsKey("sxa-composite-recursion-level"))
               {
                 args.CustomData.Add("sxa-composite-recursion-level", 1);
               }
@@ -50,11 +50,13 @@
               List<XElement> content = result.Descendants("d").ToList();
               args.Result.Descendants("d").Remove();
               args.Result.Add(content);
-              if (Context.PageMode.IsNormal)
-              {
-                StoreValueInCache(CreateCompositesXmlCacheKey(item.ID, siteItem.ID), args.Result.ToString());
-              }
-            }
+            #region Removed Code
+            //    if (Context.PageMode.IsNormal)
+            //    {
+            //        StoreValueInCache(CreateCompositesXmlCacheKey(item.ID, siteItem.ID), args.Result.ToString());
+            //    }
+            //}
+            #endregion
           }
         }
       }

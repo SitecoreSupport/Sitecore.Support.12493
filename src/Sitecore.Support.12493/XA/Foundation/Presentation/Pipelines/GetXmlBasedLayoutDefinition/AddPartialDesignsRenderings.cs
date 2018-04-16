@@ -38,23 +38,27 @@
         {
           ID designId = (designItem != null) ? designItem.ID : item.ID;
           Item siteItem = ServiceLocator.ServiceProvider.GetService<IMultisiteContext>().GetSiteItem(item);
-          DictionaryCacheValue dictionaryCacheValue = DictionaryCache.Get(CreateLayoutXmlCacheKey(item.ID, designId, siteItem.ID));
-          if (Context.PageMode.IsNormal && dictionaryCacheValue != null && dictionaryCacheValue.Properties.ContainsKey("LayoutXml"))
-          {
-            args.Result = (dictionaryCacheValue.Properties["LayoutXml"] as XElement);
-          }
-          else
-          {
-            ILayoutXmlService service = ServiceLocator.ServiceProvider.GetService<ILayoutXmlService>();
+          #region Removed Code
+          //DictionaryCacheValue dictionaryCacheValue = DictionaryCache.Get(CreateLayoutXmlCacheKey(item.ID, designId, siteItem.ID));
+          //if (Context.PageMode.IsNormal && dictionaryCacheValue != null && dictionaryCacheValue.Properties.ContainsKey("LayoutXml"))
+          //{
+          //    args.Result = (dictionaryCacheValue.Properties["LayoutXml"] as XElement);
+          //}
+          //else
+          //{
+          #endregion
+          ILayoutXmlService service = ServiceLocator.ServiceProvider.GetService<ILayoutXmlService>();
             List<XElement> renderings = service.GetRenderings(item, designItem);
             if (renderings.Any())
             {
               service.MergePartialDesignsRenderings(args.Result, renderings);
-              if (Context.PageMode.IsNormal)
-              {
-                StoreValueInCache(CreateLayoutXmlCacheKey(item.ID, designId, siteItem.ID), args.Result);
-              }
-            }
+            #region Removed Code
+            //    if (Context.PageMode.IsNormal)
+            //    {
+            //        StoreValueInCache(CreateLayoutXmlCacheKey(item.ID, designId, siteItem.ID), args.Result);
+            //    }
+            //}
+            #endregion
           }
         }
       }
